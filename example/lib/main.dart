@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    FlutterEasyPermission.addPermissionCallback(
+    FlutterEasyPermission().addPermissionCallback(
         onGranted: (requestCode,perms){
           debugPrint("获得授权:$perms");
         },
@@ -41,11 +41,6 @@ class _MyAppState extends State<MyApp> {
         });
   }
 
-  @override
-  void dispose() {
-    FlutterEasyPermission.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -15,9 +15,9 @@ typedef OnSettingsReturned = void Function();
 class FlutterEasyPermission {
   static const MethodChannel _channel =
       const MethodChannel('xyz.bczl.flutter_easy_permission/permissions');
+  static const _callback_channel_name = 'xyz.bczl.flutter_easy_permission/callback';
 
-  static const MethodChannel _callbackChannel =
-      const MethodChannel('xyz.bczl.flutter_easy_permission/callback');
+  MethodChannel _callbackChannel ;
 
   ///
   /// 检查权限
@@ -52,6 +52,10 @@ class FlutterEasyPermission {
     }
   }
 
+  FlutterEasyPermission(){
+    _callbackChannel = MethodChannel(_callback_channel_name);
+  }
+
   ///
   /// 设置用户授权结果的回调
   ///
@@ -59,7 +63,7 @@ class FlutterEasyPermission {
   /// [onDenied]  拒绝授权时回调
   /// [onSettingsReturned] 调用[showAppSettingsDialog]后的回调
   ///
-  static void addPermissionCallback({
+  void addPermissionCallback({
     @required OnGranted onGranted,
     @required OnDenied onDenied,
     OnSettingsReturned onSettingsReturned
@@ -124,7 +128,7 @@ class FlutterEasyPermission {
     }
   }
 
-  static void dispose(){
-    _callbackChannel.setMethodCallHandler(null);
+  void dispose(){
+    _callbackChannel?.setMethodCallHandler(null);
   }
 }

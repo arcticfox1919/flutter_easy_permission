@@ -2,7 +2,9 @@
 
 Permission plugin for Flutter.This is a wrapper for the **[easypermissions](https://github.com/googlesamples/easypermissions)** library.
 
-Note that only the Android platform is currently supported
+
+- [x]  Android
+- [ ]  iOS
 
 
 
@@ -30,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    FlutterEasyPermission.addPermissionCallback(
+    FlutterEasyPermission().addPermissionCallback(
         onGranted: (requestCode,perms){
           debugPrint("获得授权:$perms");
         },
@@ -48,12 +50,6 @@ class _MyAppState extends State<MyApp> {
                   :debugPrint("未获得授权:$needPermissions")
           );
         });
-  }
-
-  @override
-  void dispose() {
-    FlutterEasyPermission.dispose();
-    super.dispose();
   }
 
   @override
