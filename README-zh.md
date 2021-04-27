@@ -1,32 +1,30 @@
 # flutter_easy_permission
 
-[中文文档](README-zh.md)  |  English
+中文文档 |  [English](README.md)
 
-
-
-Permission plugin for Flutter.This is a wrapper for the **[easypermissions](https://github.com/googlesamples/easypermissions)** library.
+这是Flutter上的一个权限处理的插件库，它的Android实现包装自 **[easypermissions](https://github.com/googlesamples/easypermissions)** 。
 
 
 - [x]  Android
 - [x]  iOS
 
-## Usage
+## 用法
 
-1. Configure permissions
-2. Permissions should be checked first when calling certain APIs
-3. No permission, then request from the user
-4. Handling callbacks
+1. 配置权限
+2. 检查权限。当调用一些需要权限的API时，应先检查是否具有相关权限
+3. 请求权限。如果未获得授权，则向用户请求这些权限
+4. 处理回调
 
-### Configure permissions
+### 配置权限
 
 #### Android
 
-Open the `android/app/src/main/AndroidManifest.xml` file in the project root directory and configure the permissions you need:
+在项目根目录中打开`android/app/src/main/AndroidManifest.xml`文件，然后配置所需的权限：
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="xyz.bczl.flutter.easy_permission_example">
-    <!--  Configure permissions here -->
+    <!--  在此处配置权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -38,35 +36,35 @@ Open the `android/app/src/main/AndroidManifest.xml` file in the project root dir
 </manifest>
 ```
 
-For a detailed description of these constants, go [here](https://developer.android.com/reference/android/Manifest.permission#summary).
+有关这些常量的详细说明，请转到[这里](https://developer.android.google.cn/reference/android/Manifest.permission#summary)。
 
-To understand how permissions are handled on Android, [here's](https://developer.android.com/guide/topics/permissions/overview) a comprehensive document.
+要了解Android上的权限是如何处理的，[这里](https://developer.android.google.cn/guide/topics/permissions/overview)有一份完整文档。
 
 #### iOS
 
-Open the `ios/Runner/Info.plist` file in the project root directory and configure the permissions you need:
+打开项目根目录下的`ios/Runner/Info.plist`文件，配置你需要的权限：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <!--  Configure permissions here  -->
+    <!--  在此处配置权限  -->
     <key>NSCameraUsageDescription</key>
-	<string>Explain to the user here why you need the permission</string>
+	<string>在此向用户解释你为什么需要这个权限</string>
 
     <!--  .............  -->
 </dict>
 </plist>
 ```
 
-Note that replacing the content of the `<string></string>` tag gives the user a reason for needing the permission.
+注意，替换`<string></string>`标签中的内容，给用户一个需要权限的理由。
 
-For a detailed explanation of iOS permissions, you can go [here](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW17).
+关于iOS权限的详细解释，你可以查看[这里](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW17)。
 
-This plugin wraps an [LBXPermission](https://github.com/MxABC/LBXPermission) library for iOS.Integrating permissions that are not required in iOS may not pass the app shop, so do not integrate those that are not used, you will also need to do some configuration.
+这个插件包装了一个用于iOS的[LBXPermission](https://github.com/MxABC/LBXPermission)库。集成iOS中未使用的权限库，可能无法通过应用商店审核，所以不要集成那些不用的权限库，因此你还需要做一些配置。
 
-Open the `ios/Podfile` file and add the following code:
+打开`ios/Podfile`文件，添加以下代码。
 
 ```
 target 'Runner' do
@@ -75,7 +73,7 @@ target 'Runner' do
   pod 'LBXPermission/Camera'
 end
 ```
-You can integrate the following libraries:
+你可以集成的库：
 ```
 pod 'LBXPermission/Camera'
 pod 'LBXPermission/Photo'
@@ -91,13 +89,13 @@ pod 'LBXPermission/Notification'
 pod 'LBXPermission/Bluetooth'
 ```
 
-Once configured, you need to run the command install in the project's ios directory:
+配置好后，你需要在项目的ios目录下运行安装命令：
 
 ```shell
 pod install
 ```
 
-### Check Permissions
+### 检查权限
 
 ```dart
 const permissions = [Permissions.CAMERA];
@@ -106,9 +104,9 @@ const permissionGroup = [PermissionGroup.Camera];
 bool ret = await FlutterEasyPermission.has(perms: permissions,permsGroup: permissionGroup);
 ```
 
-Since Android and iOS permissions are very different, it is difficult to handle them uniformly, so you have to handle them separately. The parameter `perms` corresponds to Android permissions and the parameter `permsGroup` to iOS permissions. The app can only run on one platform at a time, so you don't need to worry about messing up.
+由于Android和iOS的权限有很大不同，很难统一处理，所以你必须分别处理。参数`perms`对应的是Android权限，参数`permsGroup`对应的是iOS权限。app同一时间只能在一个平台上运行，所以你不需要担心会出现混乱。
 
-Note the relationship between the API and the library, to check and request the relevant permissions you must integrate the corresponding library, see the following table:
+注意API和库之间的关系，要检查和请求相关的权限，你必须集成相应的库，见下表：
 
 | PermissionGroup | Info.plist                                                   | Integrated lib             |
 | --------------- | ------------------------------------------------------------ | -------------------------- |
@@ -122,13 +120,13 @@ Note the relationship between the API and the library, to check and request the 
 | Notification    | `PermissionGroupNotification`                                | LBXPermission/Notification |
 | Bluetooth       | `NSBluetoothAlwaysUsageDescription`<br /> `NSBluetoothPeripheralUsageDescription` | LBXPermission/Bluetooth    |
 
-### Request permission
+### 请求权限
 ```dart
 FlutterEasyPermission.request(
                     perms: permissions,permsGroup: permissionGroup,rationale:"Test permission requests here");
 ```
 
-### Handling callbacks
+### 处理回调
 
 ```dart
 void initState() {
@@ -155,10 +153,10 @@ void dispose() {
 }
 ```
 
-When `isPermanent` returns true, it indicates that the system will not pop up an authorization dialog when requesting permissions, so you may need to pop up a dialog yourself with content that mainly prompts the user, and if you must use this feature, you can go to the system settings page to reopen the permissions.
+当`isPermanent`返回true时，表明系统在请求权限时不会弹出授权对话框，所以你可能需要自己弹出一个对话框，内容主要是提示用户，如果你必须使用这个功能，你可以到系统设置页面重新打开权限。
 
-On Android, you may also need to implement the `onSettingsReturned` callback function to better handle permission interactions.It is the callback after `showAppSettingsDialog` is called
+在Android上，你可能还需要实现`onSettingsReturned`回调函数，以更好地处理权限交互。它是`showAppSettingsDialog`被调用后的回调。
 
-## Example
+## 例子
 
-**For a complete example, please see [here](https://github.com/arcticfox1919/flutter_easy_permission/blob/main/example/lib/main.dart).**
+**一个完整的例子, 查看 [这里](https://github.com/arcticfox1919/flutter_easy_permission/blob/main/example/lib/main.dart)。**
