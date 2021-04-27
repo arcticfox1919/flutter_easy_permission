@@ -13,34 +13,47 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static const needPermissions = [
-    Permissions.WRITE_EXTERNAL_STORAGE,
-    Permissions.READ_EXTERNAL_STORAGE];
+  static const permissions = [
+    Permissions.CAMERA];
+
+  static const permissionGroup = [
+    PermissionGroup.Camera];
+
+  FlutterEasyPermission _easyPermission;
 
   @override
   void initState() {
     super.initState();
 
-    FlutterEasyPermission().addPermissionCallback(
-        onGranted: (requestCode,perms){
-          debugPrint("获得授权:$perms");
+    _easyPermission = FlutterEasyPermission()
+      ..addPermissionCallback(
+        onGranted: (requestCode,perms,perm){
+          debugPrint("android获得授权:$perms");
+          debugPrint("iOS获得授权:$perm");
         },
-        onDenied: (requestCode,perms,isPermanentlyDenied){
-          if(isPermanentlyDenied){
-            FlutterEasyPermission.showAppSettingsDialog();
+        onDenied: (requestCode,perms,perm,isPermanent){
+          if(isPermanent){
+            FlutterEasyPermission.showAppSettingsDialog(title: "Camera");
           }else{
-            debugPrint("授权失败:$perms");
+            debugPrint("android授权失败:$perms");
+            debugPrint("iOS授权失败:$perm");
           }
         },
+
         onSettingsReturned: (){
-          FlutterEasyPermission.has(needPermissions).then(
+          FlutterEasyPermission.has(perms: permissions).then(
                   (value) => value
-                  ?debugPrint("已获得授权:$needPermissions")
-                  :debugPrint("未获得授权:$needPermissions")
+                  ?debugPrint("已获得授权:$permissions")
+                  :debugPrint("未获得授权:$permissions")
           );
         });
   }
 
+  @override
+  void dispose() {
+    _easyPermission.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +69,17 @@ class _MyAppState extends State<MyApp> {
               ElevatedButton(
                   child: Text("检查权限"),
                   onPressed: (){
-                    FlutterEasyPermission.has(needPermissions).then(
+                    FlutterEasyPermission.has(perms: permissions,permsGroup: permissionGroup).then(
                             (value) => value
-                                ?debugPrint("已获得授权:$needPermissions")
-                                :debugPrint("未获得授权:$needPermissions")
+                                ?debugPrint("已获得授权")
+                                :debugPrint("未获得授权")
                     );
                   }),
               ElevatedButton(
                 child: Text("请求权限"),
                   onPressed: (){
-                FlutterEasyPermission.request(needPermissions,rationale:"测试需要这些权限");
+                FlutterEasyPermission.request(
+                    perms: permissions,permsGroup: permissionGroup,rationale:"测试需要这些权限");
               })
             ],
           )

@@ -1,3 +1,8 @@
-## 0.0.1
+## 1.0.0
+* Add IOS permission processing
 
-* TODO: Describe initial release.
+## 0.0.2
+* Fix bug
+
+## 0.0.1
+* Add Android permission processing

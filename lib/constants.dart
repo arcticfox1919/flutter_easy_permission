@@ -35,3 +35,24 @@ enum Permissions {
   RECEIVE_SMS,
   SEND_SMS,
 }
+
+// *****************************************************************************
+// ************************************ iOS ************************************
+// *****************************************************************************
+enum PermissionGroup {
+  Location,
+  Camera,
+  Photos,
+  Contacts,
+  Reminders,
+  Calendar,
+  Microphone,
+  Health,
+  DataNetwork,
+  MediaLibrary,
+  Tracking,
+  Notification,
+  Bluetooth
+}
+
+
