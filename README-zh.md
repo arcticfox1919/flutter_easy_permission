@@ -73,7 +73,7 @@ target 'Runner' do
   pod 'LBXPermission/Camera'
 end
 ```
-你可以集成的库：
+你可以集成的库（请按需集成，如果集成不需要的库，可能导致苹果应用商店上架审核失败）：
 ```
 pod 'LBXPermission/Camera'
 pod 'LBXPermission/Photo'
