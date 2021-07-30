@@ -11,13 +11,13 @@ import 'constants.dart';
 /// [perms] 参见 [FlutterEasyPermission.request]
 /// [permsGroup] 参见 [FlutterEasyPermission.request]
 ///
-typedef Granted = void Function(int requestCode,List<Permissions> perms,PermissionGroup perm);
+typedef Granted = void Function(int requestCode,List<Permissions> ?perms,PermissionGroup ?perm);
 
 ///
 /// [isPermanent] 是否有一个权限被永久拒绝
 ///
-typedef Denied = void Function(int requestCode,List<Permissions> perms,
-    PermissionGroup perm,bool isPermanent);
+typedef Denied = void Function(int requestCode,List<Permissions> ?perms,
+    PermissionGroup ?perm,bool isPermanent);
 
 
 class FlutterEasyPermission {
@@ -29,9 +29,9 @@ class FlutterEasyPermission {
 
   static Set<FlutterEasyPermission> _callbacks = Set<FlutterEasyPermission>();
 
-  Granted _granted;
-  Denied _denied;
-  VoidCallback _onSettingsReturned;
+  Granted ?_granted;
+  Denied ?_denied;
+  VoidCallback ?_onSettingsReturned;
 
   ///
   /// 检查权限
@@ -40,13 +40,13 @@ class FlutterEasyPermission {
   /// [permsGroup] 一组要检查的iOS权限。参见 [PermissionGroup]
   /// 已获得授权时返回：true，否则返回：false
   ///
-  static Future<bool> has({List<Permissions> perms,List<PermissionGroup> permsGroup}) async {
+  static Future<bool> has({required List<Permissions> perms,required List<PermissionGroup> permsGroup}) async {
     assert(perms!= null || permsGroup != null);
     try {
       var list = _getPermissionsIndex(Platform.isAndroid ? perms:permsGroup);
       return await _channel.invokeMethod('hasPermissions', {"perms": list});
-    }catch(e){
-      debugPrint(e.message);
+    }catch(e,s){
+      debugPrint('$e\n$s');
     }
     return false;
   }
@@ -59,16 +59,16 @@ class FlutterEasyPermission {
   /// [rationale] 仅Android有效。解释为什么应用程序需要这组权限；如果用户第一次拒绝请求，将显示该信息。
   /// [requestCode] 追踪此请求的请求码，必须是小于256的整数，将在[Granted]、[Denied]回调中返回
   ///
-  static void request({List<Permissions> perms,List<PermissionGroup> permsGroup,
-    String rationale,int requestCode=DefaultRequestCode}) async {
+  static void request({required List<Permissions> perms,required List<PermissionGroup> permsGroup,
+    String ?rationale,int requestCode=DefaultRequestCode}) async {
     assert(perms!=null || permsGroup != null);
 
     try{
       var list = _getPermissionsIndex(Platform.isAndroid ? perms:permsGroup);
       await _channel.invokeMethod('requestPermissions',
           {"perms":list,"rationale":rationale,"requestCode":requestCode});
-    }catch(e){
-      debugPrint(e.message);
+    }catch(e,s){
+      debugPrint('$e\n$s');
     }
   }
 
@@ -80,9 +80,9 @@ class FlutterEasyPermission {
   /// [onSettingsReturned] 仅Android有效。Android平台调用[showAppSettingsDialog]后的回调
   ///
   void addPermissionCallback({
-    Granted onGranted,
-    Denied onDenied,
-    VoidCallback onSettingsReturned,
+    Granted ?onGranted,
+    Denied ?onDenied,
+    VoidCallback ?onSettingsReturned,
   }){
     this._granted = onGranted;
     this._denied = onDenied;
@@ -94,13 +94,13 @@ class FlutterEasyPermission {
   }
 
   static Future<dynamic> _handler(MethodCall call){
-    PermissionGroup pg ;
+    PermissionGroup ?pg ;
     List<Permissions> perms = []..length=0;
     try {
       switch (call.method) {
         case "onGranted":
-          int perm = call.arguments["perm"];
-          int requestCode = call.arguments["requestCode"];
+          int ?perm = call.arguments["perm"];
+          int requestCode = call.arguments["requestCode"] ?? -1;
 
           if(perm !=null){
             pg = _getPermission(perm);
@@ -113,7 +113,7 @@ class FlutterEasyPermission {
           });
           break;
         case "onDenied":
-          int perm = call.arguments["perm"];
+          int ?perm = call.arguments["perm"];
           int requestCode = call.arguments["requestCode"];
           bool isPermanentlyDenied;
           if(perm !=null){
@@ -135,10 +135,10 @@ class FlutterEasyPermission {
           });
           break;
       }
-    }catch(e){
-      debugPrint(e.message);
+    }catch(e,s){
+      debugPrint('$e\n$s');
     }
-    return null;
+    return Future.value();
   }
 
   static List<int> _getPermissionsIndex(List<dynamic> perms){
@@ -180,7 +180,7 @@ class FlutterEasyPermission {
             "negativeButtonText":negativeButtonText
           });
     }catch(e){
-      debugPrint(e.message);
+      debugPrint(e.toString());
     }
   }
 

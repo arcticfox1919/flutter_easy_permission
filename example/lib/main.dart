@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
   static const permissionGroup = [
     PermissionGroup.Camera];
 
-  FlutterEasyPermission _easyPermission;
+  late FlutterEasyPermission _easyPermission;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
         },
 
         onSettingsReturned: (){
-          FlutterEasyPermission.has(perms: permissions).then(
+          FlutterEasyPermission.has(perms: permissions,permsGroup: []).then(
                   (value) => value
                   ?debugPrint("已获得授权:$permissions")
                   :debugPrint("未获得授权:$permissions")
