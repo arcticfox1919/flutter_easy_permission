@@ -27,6 +27,8 @@ class FlutterEasyPermission {
   static const MethodChannel _callbackChannel =
       const MethodChannel('xyz.bczl.flutter_easy_permission/callback');
 
+  static bool _isSetMethodCallHandler = false;
+
   static Set<FlutterEasyPermission> _callbacks = Set<FlutterEasyPermission>();
 
   Granted ?_granted;
@@ -88,7 +90,8 @@ class FlutterEasyPermission {
     this._denied = onDenied;
     this._onSettingsReturned = onSettingsReturned;
     _callbacks.add(this);
-    if(_callbackChannel.checkMethodCallHandler(null)){
+    if(!_isSetMethodCallHandler){
+      _isSetMethodCallHandler = true;
       _callbackChannel.setMethodCallHandler(_handler);
     }
   }
