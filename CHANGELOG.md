@@ -1,3 +1,6 @@
+## 1.1.1
+* Fix the error of undefined `checkMethodCallHandler`
+
 ## 1.1.0
 * Add Null Safety support
 
