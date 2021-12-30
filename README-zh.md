@@ -62,31 +62,32 @@
 
 关于iOS权限的详细解释，你可以查看[这里](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW17)。
 
-这个插件包装了一个用于iOS的[LBXPermission](https://github.com/MxABC/LBXPermission)库。集成iOS中未使用的权限库，可能无法通过应用商店审核，所以不要集成那些不用的权限库，因此你还需要做一些配置。
+集成iOS中未使用的权限库，可能无法通过应用商店审核，所以不要集成那些不用的权限库，因此你还需要做一些配置。
 
 打开`ios/Podfile`文件，添加以下代码。
 
-```
+```ruby
 target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   # Add the library of permissions you need here
-  pod 'LBXPermission/Camera'
+  pod 'EasyPermissionX/Camera'
 end
 ```
 你可以集成的库（请按需集成，如果集成不需要的库，可能导致苹果应用商店上架审核失败）：
-```
-pod 'LBXPermission/Camera'
-pod 'LBXPermission/Photo'
-pod 'LBXPermission/Contact'
-pod 'LBXPermission/Location'
-pod 'LBXPermission/Reminder'
-pod 'LBXPermission/Calendar'
-pod 'LBXPermission/Microphone'
-pod 'LBXPermission/Health'
-pod 'LBXPermission/Net'
-pod 'LBXPermission/Tracking'
-pod 'LBXPermission/Notification'
-pod 'LBXPermission/Bluetooth'
+```ruby
+pod 'EasyPermissionX/Camera'
+pod 'EasyPermissionX/Photo'
+pod 'EasyPermissionX/Contact'
+pod 'EasyPermissionX/Location'
+pod 'EasyPermissionX/Reminder'
+pod 'EasyPermissionX/Calendar'
+pod 'EasyPermissionX/Microphone'
+pod 'EasyPermissionX/Health'
+pod 'EasyPermissionX/Net'
+pod 'EasyPermissionX/Tracking'
+pod 'EasyPermissionX/Media'
+pod 'EasyPermissionX/Notification'
+pod 'EasyPermissionX/Bluetooth'
 ```
 
 配置好后，你需要在项目的ios目录下运行安装命令：
@@ -108,17 +109,17 @@ bool ret = await FlutterEasyPermission.has(perms: permissions,permsGroup: permis
 
 注意API和库之间的关系，要检查和请求相关的权限，你必须集成相应的库，见下表：
 
-| PermissionGroup | Info.plist                                                   | Integrated lib             |
-| --------------- | ------------------------------------------------------------ | -------------------------- |
-| Calendar        | `NSCalendarsUsageDescription`                                | LBXPermission/Calendar     |
-| Reminders       | `NSRemindersUsageDescription`                                | LBXPermission/Reminder     |
-| Contacts        | `NSContactsUsageDescription`                                 | LBXPermission/Contact      |
-| Camera          | `NSCameraUsageDescription`                                   | LBXPermission/Camera       |
-| Microphone      | `NSMicrophoneUsageDescription`                               | LBXPermission/Microphone   |
-| Photos          | `NSPhotoLibraryUsageDescription`                             | LBXPermission/Photo        |
-| Location        | `NSLocationUsageDescription`<br /> `NSLocationAlwaysAndWhenInUseUsageDescription`<br /> `NSLocationWhenInUseUsageDescription` | LBXPermission/Location     |
-| Notification    | `PermissionGroupNotification`                                | LBXPermission/Notification |
-| Bluetooth       | `NSBluetoothAlwaysUsageDescription`<br /> `NSBluetoothPeripheralUsageDescription` | LBXPermission/Bluetooth    |
+| PermissionGroup | Info.plist                                                   | Integrated lib               |
+| --------------- | ------------------------------------------------------------ | ---------------------------- |
+| Calendar        | `NSCalendarsUsageDescription`                                | EasyPermissionX/Calendar     |
+| Reminders       | `NSRemindersUsageDescription`                                | EasyPermissionX/Reminder     |
+| Contacts        | `NSContactsUsageDescription`                                 | EasyPermissionX/Contact      |
+| Camera          | `NSCameraUsageDescription`                                   | EasyPermissionX/Camera       |
+| Microphone      | `NSMicrophoneUsageDescription`                               | EasyPermissionX/Microphone   |
+| Photos          | `NSPhotoLibraryUsageDescription`                             | EasyPermissionX/Photo        |
+| Location        | `NSLocationUsageDescription`<br /> `NSLocationAlwaysAndWhenInUseUsageDescription`<br /> `NSLocationWhenInUseUsageDescription` | EasyPermissionX/Location     |
+| Notification    | `PermissionGroupNotification`                                | EasyPermissionX/Notification |
+| Bluetooth       | `NSBluetoothAlwaysUsageDescription`<br /> `NSBluetoothPeripheralUsageDescription` | EasyPermissionX/Bluetooth    |
 
 ### 请求权限
 ```dart

@@ -64,31 +64,32 @@ Note that replacing the content of the `<string></string>` tag gives the user a 
 
 For a detailed explanation of iOS permissions, you can go [here](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW17).
 
-This plugin wraps an [LBXPermission](https://github.com/MxABC/LBXPermission) library for iOS.Integrating permissions that are not required in iOS may not pass the app shop, so do not integrate those that are not used, you will also need to do some configuration.
+Integrating permissions that are not required in iOS may not pass the app shop, so do not integrate those that are not used, you will also need to do some configuration.
 
 Open the `ios/Podfile` file and add the following code:
 
-```
+```ruby
 target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   # Add the library of permissions you need here
-  pod 'LBXPermission/Camera'
+  pod 'EasyPermissionX/Camera'
 end
 ```
 You can integrate the following libraries:
-```
-pod 'LBXPermission/Camera'
-pod 'LBXPermission/Photo'
-pod 'LBXPermission/Contact'
-pod 'LBXPermission/Location'
-pod 'LBXPermission/Reminder'
-pod 'LBXPermission/Calendar'
-pod 'LBXPermission/Microphone'
-pod 'LBXPermission/Health'
-pod 'LBXPermission/Net'
-pod 'LBXPermission/Tracking'
-pod 'LBXPermission/Notification'
-pod 'LBXPermission/Bluetooth'
+```ruby
+pod 'EasyPermissionX/Camera'
+pod 'EasyPermissionX/Photo'
+pod 'EasyPermissionX/Contact'
+pod 'EasyPermissionX/Location'
+pod 'EasyPermissionX/Reminder'
+pod 'EasyPermissionX/Calendar'
+pod 'EasyPermissionX/Microphone'
+pod 'EasyPermissionX/Health'
+pod 'EasyPermissionX/Net'
+pod 'EasyPermissionX/Tracking'
+pod 'EasyPermissionX/Media'
+pod 'EasyPermissionX/Notification'
+pod 'EasyPermissionX/Bluetooth'
 ```
 
 Once configured, you need to run the command install in the project's ios directory:
@@ -110,17 +111,17 @@ Since Android and iOS permissions are very different, it is difficult to handle 
 
 Note the relationship between the API and the library, to check and request the relevant permissions you must integrate the corresponding library, see the following table:
 
-| PermissionGroup | Info.plist                                                   | Integrated lib             |
-| --------------- | ------------------------------------------------------------ | -------------------------- |
-| Calendar        | `NSCalendarsUsageDescription`                                | LBXPermission/Calendar     |
-| Reminders       | `NSRemindersUsageDescription`                                | LBXPermission/Reminder     |
-| Contacts        | `NSContactsUsageDescription`                                 | LBXPermission/Contact      |
-| Camera          | `NSCameraUsageDescription`                                   | LBXPermission/Camera       |
-| Microphone      | `NSMicrophoneUsageDescription`                               | LBXPermission/Microphone   |
-| Photos          | `NSPhotoLibraryUsageDescription`                             | LBXPermission/Photo        |
-| Location        | `NSLocationUsageDescription`<br /> `NSLocationAlwaysAndWhenInUseUsageDescription`<br /> `NSLocationWhenInUseUsageDescription` | LBXPermission/Location     |
-| Notification    | `PermissionGroupNotification`                                | LBXPermission/Notification |
-| Bluetooth       | `NSBluetoothAlwaysUsageDescription`<br /> `NSBluetoothPeripheralUsageDescription` | LBXPermission/Bluetooth    |
+| PermissionGroup | Info.plist                                                   | Integrated lib               |
+| --------------- | ------------------------------------------------------------ | ---------------------------- |
+| Calendar        | `NSCalendarsUsageDescription`                                | EasyPermissionX/Calendar     |
+| Reminders       | `NSRemindersUsageDescription`                                | EasyPermissionX/Reminder     |
+| Contacts        | `NSContactsUsageDescription`                                 | EasyPermissionX/Contact      |
+| Camera          | `NSCameraUsageDescription`                                   | EasyPermissionX/Camera       |
+| Microphone      | `NSMicrophoneUsageDescription`                               | EasyPermissionX/Microphone   |
+| Photos          | `NSPhotoLibraryUsageDescription`                             | EasyPermissionX/Photo        |
+| Location        | `NSLocationUsageDescription`<br /> `NSLocationAlwaysAndWhenInUseUsageDescription`<br /> `NSLocationWhenInUseUsageDescription` | EasyPermissionX/Location     |
+| Notification    | `PermissionGroupNotification`                                | EasyPermissionX/Notification |
+| Bluetooth       | `NSBluetoothAlwaysUsageDescription`<br /> `NSBluetoothPeripheralUsageDescription` | EasyPermissionX/Bluetooth    |
 
 ### Request permission
 ```dart

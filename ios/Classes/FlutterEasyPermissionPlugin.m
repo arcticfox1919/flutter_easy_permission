@@ -1,6 +1,6 @@
 #import "FlutterEasyPermissionPlugin.h"
 #import <Foundation/Foundation.h>
-#import "LBXPermission.h"
+#import "EasyPermission.h"
 
 @implementation FlutterEasyPermissionPlugin
 {
@@ -31,7 +31,7 @@
     NSArray *perms = args[@"perms"];
     if ([@"hasPermissions" isEqualToString:call.method]) {
         for (NSNumber *perm in perms) {
-            BOOL ret = [LBXPermission authorizedWithType:perm.intValue];
+            BOOL ret = [EasyPermission authorizedWithType:perm.intValue];
             if (!ret) {
                 result([NSNumber numberWithBool:NO]);
                 return;
@@ -42,7 +42,7 @@
         NSNumber *requestCode = args[@"requestCode"];
         
         for (NSNumber *perm in perms) {
-            [LBXPermission authorizeWithType:perm.intValue completion:^(BOOL granted, BOOL firstTime) {
+            [EasyPermission authorizeWithType:perm.intValue completion:^(BOOL granted, BOOL firstTime) {
                 NSDictionary *param = @{
                     @"perm":perm,
                     @"requestCode":requestCode,
@@ -59,7 +59,7 @@
         NSString *rationale = args[@"rationale"];
         NSString *positiveBtnText = args[@"positiveButtonText"];
         NSString *negativeBtnText = args[@"negativeButtonText"];
-        [LBXPermissionSetting showAlertToDislayPrivacySettingWithTitle:title msg:rationale cancel:negativeBtnText setting:positiveBtnText];
+        [EasyPermissionSetting showAlertToDislayPrivacySettingWithTitle:title msg:rationale cancel:negativeBtnText setting:positiveBtnText];
         result(nil);
     }else {
         result(FlutterMethodNotImplemented);
