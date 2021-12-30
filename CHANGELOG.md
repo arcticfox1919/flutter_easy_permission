@@ -1,3 +1,6 @@
+## 1.1.2
+* Update iOS support
+
 ## 1.1.1
 * Fix the error of undefined `checkMethodCallHandler`
 
