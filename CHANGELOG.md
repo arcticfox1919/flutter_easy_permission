@@ -1,7 +1,3 @@
-## 1.1.3
-* Update example dependent library
-* Modify the tutorial
-
 ## 1.1.2
 * Update iOS support
 
